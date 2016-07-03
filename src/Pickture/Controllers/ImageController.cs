@@ -8,7 +8,6 @@ using Pickture.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Pickture.Controllers
 {
@@ -51,7 +50,7 @@ namespace Pickture.Controllers
         }
 
 
-        // GET api/values/5
+        // GET api/image/5
         [HttpGet("{id}", Name = "GetImage")]
         public IActionResult Get(int id)
         {
@@ -70,7 +69,7 @@ namespace Pickture.Controllers
             return Ok(image);
         }
 
-        // POST api/values
+        // POST api/images
         [HttpPost]
         public IActionResult Post([FromBody]Image image)
         {
@@ -99,7 +98,7 @@ namespace Pickture.Controllers
             return CreatedAtRoute("GetInventory", new { id = image.ImageId }, image);
         }
 
-        // PUT api/values/5
+        // PUT api/images/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Image image)
         {
@@ -134,7 +133,7 @@ namespace Pickture.Controllers
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // DELETE api/values/5
+        // DELETE api/images/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
