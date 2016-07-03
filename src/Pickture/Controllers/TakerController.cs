@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Cors;
 
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Pickture.Controllers
 {
@@ -24,7 +23,7 @@ namespace Pickture.Controllers
             _context = context;
         }
 
-        // GET: api/values
+        // GET: api/taker
         [HttpGet]
         public IActionResult Get([FromQuery] int TakerId)
         {
@@ -55,26 +54,8 @@ namespace Pickture.Controllers
             return Ok(Taker);
         }
 
-        //// GET api/values/5
-        //[HttpGet("{id}", Name = "GetTaker")]
-        //public IActionResult Get(int id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    Taker taker = _context.Takers.Single(m => m.TakerId == id);
-
-        //    if (taker == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(taker);
-        //}
-
-        // POST api/values
+       
+        // POST api/taker
         [HttpPost]
         public IActionResult Post([FromBody]Taker taker)
         {
@@ -115,7 +96,7 @@ namespace Pickture.Controllers
             return CreatedAtRoute("GetGeek", new { id = taker.TakerId }, taker);
         }
 
-        // PUT api/values/5
+        // PUT api/taker/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Taker taker)
         {
@@ -150,7 +131,7 @@ namespace Pickture.Controllers
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // DELETE api/values/5
+        // DELETE api/taker/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
