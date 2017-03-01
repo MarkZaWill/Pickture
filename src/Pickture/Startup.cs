@@ -35,22 +35,34 @@ namespace Pickture
 
             // Add framework services.
             services.AddMvc();
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowNewDevelopmentEnvironment",
+                     //builder => builder.WithOrigins("http://localhost:8080")
+                     builder => builder
+                        .AllowAnyOrigin() //allows from anything(including virtual box)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        /*.WithMethods("DELETE, PUT, POST, GET, OPTIONS")*/);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+
+            app.UseCors(builder =>
+                        builder
+                       .AllowAnyOrigin() //allows from anything(including virtual box)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                       /* .WithMethods("DELETE, PUT, POST, GET, OPTIONS")*/);
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseMvc();
 
-            app.UseCors("AllowSpecificOrigin");
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
         }
     }
 }

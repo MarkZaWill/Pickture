@@ -13,51 +13,66 @@ namespace Pickture.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
-    [EnableCors("AllowDevelopmentEnvironment")]
-    public class GeekController : Controller
+    [EnableCors("AllowNewDevelopmentEnvironment")]
+    public class TakerController : Controller
     {
         private PictureDbContext _context;
 
-        public GeekController(PictureDbContext context)
+        public TakerController(PictureDbContext context)
         {
             _context = context;
         }
 
         // GET: api/taker
         [HttpGet]
-        public IActionResult Get([FromQuery] int TakerId)
+        public IActionResult Get([FromQuery] string takerName)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IQueryable<Taker> Taker = from taker in _context.Takers
-                                     select new Taker
-                                     {
-                                         TakerId = taker.TakerId,
-                                         TakerName = taker.TakerName,
-                                         EmailAddress = taker.EmailAddress,
-                     
-                                     };
+            IQueryable<Taker> users = from user in _context.Takers
+                                      select user;
 
-            if (Taker != null)
+            if (takerName != null)
             {
-                Taker = Taker.Where(g => g.TakerId == TakerId);
+                users = users.Where(g => g.TakerName == takerName);
             }
 
-            if (Taker == null)
+            if (users == null)
             {
                 return NotFound();
             }
 
-            return Ok(Taker);
+            return Ok(users);
+
         }
 
-       
-        // POST api/taker
+
+        //GET api/values/5
+        [HttpGet("{id}", Name = "GetTaker")]
+        public IActionResult Get(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Taker taker = _context.Takers.Single(m => m.TakerId == id);
+
+            if (taker == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(taker);
+        }
+
+        // POST api/values
+
         [HttpPost]
-        public IActionResult Post([FromBody]Taker taker)
+        public IActionResult Post([FromBody] Taker taker)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +81,7 @@ namespace Pickture.Controllers
 
 
             var existingUser = from g in _context.Takers
-                               where g.TakerName == taker.TakerName
+                               where g.TakerId == taker.TakerId
                                select g;
 
             if (existingUser.Count<Taker>() > 0)
@@ -88,12 +103,13 @@ namespace Pickture.Controllers
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
                 else
+
                 {
                     throw;
                 }
             }
 
-            return CreatedAtRoute("GetGeek", new { id = taker.TakerId }, taker);
+            return CreatedAtRoute("GetTaker", new {id = taker.TakerId }, taker);
         }
 
         // PUT api/taker/5
