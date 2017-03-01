@@ -9,6 +9,7 @@ namespace Pickture.Models
     {
         public int EmotionId { get; set; }
         public int ImageId { get; set; }
+        public float Anger { get; set; }
         public float Contempt { get; set; }
         public float Fear { get; set; }
         public float Happiness { get; set; }

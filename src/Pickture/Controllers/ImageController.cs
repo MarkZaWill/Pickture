@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace Pickture.Controllers
 {
+    //[EnableCors(origins: "http://localhost:8080/", headers: "*", methods: "*")]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    [EnableCors("AllowDevelopmentEnvironment")]
+    //[EnableCors("AllowNewDevelopmentEnvironment")]
+    [DisableCors]
     public class ImageController : Controller
     {
 
@@ -50,7 +52,7 @@ namespace Pickture.Controllers
             return Ok(Image);
         }
 
-
+        
         // GET api/values/5
         [HttpGet("{id}", Name = "GetImage")]
         public IActionResult Get(int id)
@@ -72,6 +74,7 @@ namespace Pickture.Controllers
 
         // POST api/values
         [HttpPost]
+        [DisableCors]
         public IActionResult Post([FromBody]Image image)
         {
             if (!ModelState.IsValid)
@@ -96,7 +99,7 @@ namespace Pickture.Controllers
                 }
             }
 
-            return CreatedAtRoute("GetInventory", new { id = image.ImageId }, image);
+            return CreatedAtRoute("GetImage", new { id = image.ImageId }, image);
         }
 
         // PUT api/values/5
@@ -143,7 +146,7 @@ namespace Pickture.Controllers
                 return BadRequest(ModelState);
             }
 
-            Image image = _context.Images.Single(m => m.ImageId == id);
+            Image image = _context.Images.SingleOrDefault(m => m.ImageId == id);
             if (image == null)
             {
                 return NotFound();

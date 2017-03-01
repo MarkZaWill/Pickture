@@ -8,9 +8,10 @@ using Pickture.Models;
 namespace Pickture.Migrations
 {
     [DbContext(typeof(PictureDbContext))]
-    partial class PictureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160619220012_imagemigration")]
+    partial class imagemigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
@@ -20,8 +21,6 @@ namespace Pickture.Migrations
                 {
                     b.Property<int>("EmotionId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<float>("Anger");
 
                     b.Property<float>("Contempt");
 
@@ -49,23 +48,7 @@ namespace Pickture.Migrations
                     b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<float>("Anger");
-
-                    b.Property<float>("Contempt");
-
-                    b.Property<float>("Disgust");
-
-                    b.Property<float>("Fear");
-
-                    b.Property<float>("Happiness");
-
                     b.Property<string>("ImageURL");
-
-                    b.Property<float>("Neutral");
-
-                    b.Property<float>("Sadness");
-
-                    b.Property<float>("Surprise");
 
                     b.Property<int>("TakerId");
 
